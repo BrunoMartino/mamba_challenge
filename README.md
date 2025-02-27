@@ -81,7 +81,7 @@ O MySQL irá processar o arquivo dump.sql e importar as tabelas e dados para o b
 
 Se desejar rodar sem Docker:
 
-npm install
+        npm install
 
 7️⃣ Rodar MySQL manualmente
 
@@ -89,7 +89,7 @@ Caso não use Docker, instale MySQL localmente e configure conforme .env.
 
 8️⃣ Executar servidor local
 
-npm run dev
+        npm run dev
 
 A aplicação estará rodando em http://localhost:3000.
 
