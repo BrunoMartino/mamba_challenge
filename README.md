@@ -57,9 +57,23 @@ Isso criará as tabelas dentro do banco MySQL no Docker.
 
 5️⃣ Populando o banco de dados (opcional)
 
-Se houver um arquivo SQL com dados iniciais, importe manualmente com:
+Primeiro, abra o terminal e execute o seguinte comando para acessar o shell interativo do contêiner do banco de dados MySQL:
 
-docker exec -i mamba_monolith_db mysql -uuser -ppassword desafio_mamba < dump.sql
+    docker exec -it mamba_monolith_db bash
+
+Agora, conecte-se ao MySQL dentro do contêiner com o comando abaixo. Será solicitado que você insira a senha do usuário MySQL (caso o usuário user tenha senha configurada):
+
+    mysql -u user -p
+
+Depois de acessar o MySQL, você precisa selecionar o banco de dados onde os dados serão importados. Substitua desafio_mamba pelo nome do seu banco de dados, caso seja diferente:
+
+    USE desafio_mamba;
+
+Agora que você está no banco de dados correto, execute o seguinte comando para importar os dados do arquivo SQL (dump.sql):
+
+    source /docker-entrypoint-initdb.d/dump.sql;
+
+O MySQL irá processar o arquivo dump.sql e importar as tabelas e dados para o banco de dados.
 
 🔥 Rodando sem Docker (Modo Manual)
 

@@ -14,7 +14,7 @@ services:
       - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
+      - ./dump.sql/dump.sql:/docker-entrypoint-initdb.d/dump.sql
 
   app:
     image: node:22
@@ -25,10 +25,13 @@ services:
       - .:/app
     ports:
       - "3000:3000"
+      - "5555:5555"
     environment:
       DATABASE_URL: "mysql://user:password@database:3306/desafio_mamba"
     depends_on:
       - database
+    command: >
+      sh -c "apt-get update && apt-get install -y wait-for-it && wait-for-it database:3306 -- npm install && npm run dev &&"
 
 volumes:
   mysql_data:
