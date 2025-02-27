@@ -1,0 +1,82 @@
+/**
+ * Geração do cliente Prisma com base no modelo de dados
+ * 
+ * @generator client - Gera o cliente para comunicação com o banco de dados usando o Prisma Client.
+ */
+generator client {
+  provider = "prisma-client-js"
+}
+
+/**
+ * Fonte de dados do banco de dados.
+ *
+ * @datasource db - Configura a conexão com o banco de dados usando MySQL e a URL do banco fornecida via variável de ambiente.
+ * 
+ * @example
+ * // Exemplo de URL de banco de dados
+ * const DATABASE_URL = "mysql://user:password@localhost:3306/database"
+ */
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+/**
+ * Modelo que representa uma campanha.
+ *
+ * @model Campaign
+ * @property {string} id - Identificador único da campanha.
+ * @property {string} name - Nome da campanha.
+ * @property {string | null} description - Descrição da campanha. Pode ser nulo.
+ * @property {Date} dateInsert - Data de inserção da campanha. Definida automaticamente como o momento da criação.
+ * @property {Date} dateInitial - Data de início da campanha. Definida automaticamente como o momento da criação.
+ * @property {Date} dateEnd - Data de término da campanha.
+ * @property {Date | null} deletedAt - Data de exclusão da campanha. Pode ser nula.
+ * @property {Status} status - Status da campanha. O valor padrão é 'PAUSADA'.
+ * @property {Category} category - Categoria da campanha.
+ */
+model Campaign {
+  id String @id
+  name String
+  description String?
+  dateInsert DateTime @default(now())
+  dateInitial DateTime @default(now()) 
+  dateEnd DateTime 
+  deletedAt DateTime? 
+  status Status @default(PAUSADA)
+  category Category
+}
+
+/**
+ * Enum que define os status possíveis de uma campanha.
+ *
+ * @enum Status
+ * @value {string} ATIVA - A campanha está ativa.
+ * @value {string} PAUSADA - A campanha está pausada.
+ * @value {string} EXPIRADA - A campanha expirou.
+ */
+enum Status {
+  ATIVA
+  PAUSADA
+  EXPIRADA
+}
+
+/**
+ * Enum que define as categorias de campanha.
+ *
+ * @enum Category
+ * @value {string} SEO - Campanha focada em otimização para motores de busca (SEO).
+ * @value {string} SOCIAL_MEDIA - Campanha focada em mídias sociais.
+ * @value {string} ADS - Campanha focada em anúncios pagos.
+ * @value {string} EMAIL_MARKETING - Campanha de marketing via e-mail.
+ * @value {string} CONTENT_MARKETING - Campanha de marketing de conteúdo.
+ * @value {string} ANALYTICS - Campanha focada em análise de dados.
+ */
+enum Category {
+  SEO
+  SOCIAL_MEDIA
+  ADS
+  EMAIL_MARKETING
+  CONTENT_MARKETING
+  ANALYTICS
+}

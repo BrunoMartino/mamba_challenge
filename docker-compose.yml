@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  database:
+    image: "mysql:8.0"
+    container_name: mamba_monolith_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: desafio_mamba
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
+
+  app:
+    image: node:22
+    container_name: mamba_monolith_app
+    restart: always
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: "mysql://user:password@database:3306/desafio_mamba"
+    depends_on:
+      - database
+
+volumes:
+  mysql_data:
+    driver: local
