@@ -10,6 +10,7 @@ import {
   useReducer,
   useState,
 } from "react";
+import { toast } from "react-toastify";
 
 /**
  * @typedef {Object} CampaignContextProps
@@ -140,10 +141,16 @@ export const CampaignProvider = ({ children }: Props) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(campaign),
       });
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Erro ao adicionar campanha");
+      }
       const newCampaign = await res.json();
       dispatch({ type: "addCampaign", payload: newCampaign });
+      toast.success("Campanha adicionada com sucesso!");
     } catch (error) {
       console.error("Erro ao adicionar campanha", error);
+      toast.error("Erro ao adicionar campanha");
     }
   };
 
@@ -163,8 +170,10 @@ export const CampaignProvider = ({ children }: Props) => {
       });
       const updateCampaign = await res.json();
       dispatch({ type: "editCampaign", payload: updateCampaign });
+      toast.success("Campanha Editada com sucesso!");
     } catch (error) {
       console.error("Erro ao editar campanha", error);
+      toast.error("Erro ao editar campanha");
     }
   };
 
@@ -178,8 +187,10 @@ export const CampaignProvider = ({ children }: Props) => {
     try {
       await fetch(`/api/campaigns/${id}`, { method: "DELETE" });
       dispatch({ type: "deleteCampaign", payload: { id } });
+      toast.success("camapanha removida com sucesso");
     } catch (error) {
       console.error("Erro ao deletar campanha", error);
+      toast.success("Erro ao remover a campanha");
     }
   };
 
