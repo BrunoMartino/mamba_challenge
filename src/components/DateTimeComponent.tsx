@@ -8,6 +8,21 @@ type DateTimeProps = {
   required?: boolean;
 };
 
+/**
+ * Componente para seleção de data e hora.
+ *
+ * @component
+ * @param {Object} props - As propriedades do componente.
+ * @param {string} props.labelDate - O rótulo exibido acima dos inputs de data e hora.
+ * @param {string} props.dateValue - O valor atual do input de data.
+ * @param {string} props.timeValue - O valor atual do input de hora.
+ * @param {(value: string) => void} props.onDateChange - Função chamada quando o valor do input de data muda.
+ * @param {(value: string) => void} props.onTimeChange - Função chamada quando o valor do input de hora muda.
+ * @param {string} props.minDate - A data mínima permitida para o input de data.
+ * @param {boolean} [props.required] - Define se os campos são obrigatórios (opcional).
+ *
+ * @returns {JSX.Element} O componente de seleção de data e hora.
+ */
 const DateTimeComponent = ({
   labelDate,
   dateValue,

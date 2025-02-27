@@ -5,16 +5,40 @@ import { useState } from "react";
 import TextInput from "./TextInputComponent";
 import Button from "./ButtomComponent";
 
+/**
+ * Componente de barra de busca para procurar campanhas por nome ou ID.
+ *
+ * Utiliza o contexto de campanhas (`useCampaigns`) para realizar a busca, passando a query inserida pelo usuário.
+ * O componente é composto por um campo de texto (`TextInput`) e um botão de busca (`Button`).
+ *
+ * @component
+ * @example
+ * return <Searchbar />;
+ */
 const Searchbar = () => {
   const { searchCampaigns } = useCampaigns();
   const [query, setQuery] = useState<string>("");
 
+  /**
+   * Função responsável por realizar a busca de campanhas.
+   * Se a query não estiver vazia, chama a função `searchCampaigns` com o valor da query.
+   *
+   * @async
+   * @function handleSearch
+   * @returns {Promise<void>}
+   */
   const handleSearch = async () => {
     if (query.trim()) {
       await searchCampaigns(query);
     }
   };
-
+  /**
+   * Função que trata o evento de pressionar uma tecla no campo de texto.
+   * Se a tecla pressionada for "Enter", a busca é executada.
+   *
+   * @function handleKeyPress
+   * @param {React.KeyboardEvent<HTMLInputElement>} e - O evento de teclado gerado ao pressionar uma tecla.
+   */
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleSearch();

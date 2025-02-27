@@ -4,12 +4,24 @@ import { useCampaigns } from "@/context/CampaignContext";
 import { useEffect, useState } from "react";
 import SingleCampaignModal from "./SingleCampaignModal";
 
+/**
+ * Componente que exibe a lista de campanhas disponíveis.
+ *
+ * @component
+ * @returns {JSX.Element} O componente que renderiza a lista de campanhas.
+ */
 const ListCampaigns = () => {
   const { campaigns, setExpiredCampaigns } = useCampaigns() || {
     campaigns: [],
     setExpiredCampaigns: () => {},
   };
 
+  /**
+   * Formata uma data para o formato "dd/mm/yyyy hh:mm".
+   *
+   * @param {string} dateString - A string da data a ser formatada.
+   * @returns {string} A data formatada ou uma mensagem de erro caso a data seja inválida.
+   */
   const formatDateTime = (dateString: string) => {
     if (!dateString) return "N/A";
 
@@ -26,14 +38,25 @@ const ListCampaigns = () => {
     });
   };
 
+  /** @type {[Object|null, React.Dispatch<React.SetStateAction<Object|null>>]} */
   const [selectedCampaign, setSelectedCampaign] = useState<string | null>(null);
+
+  /** @type {[boolean, React.Dispatch<React.SetStateAction<boolean>>]} */
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
+  /**
+   * Abre o modal e define a campanha selecionada.
+   *
+   * @param {Object} campaign - O objeto da campanha selecionada.
+   */
   const openModal = (campaign: string) => {
     setSelectedCampaign(campaign);
     setIsModalOpen(true);
   };
 
+  /**
+   * Fecha o modal e reseta a campanha selecionada.
+   */
   const closeModal = () => {
     setSelectedCampaign(null);
     setIsModalOpen(false);

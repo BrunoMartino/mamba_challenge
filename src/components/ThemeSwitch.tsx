@@ -1,8 +1,17 @@
 import { useCampaigns } from "@/context/CampaignContext";
 
+/**
+ * Componente ThemeSwitch para alternar entre os temas claro e escuro.
+ *
+ * @returns {JSX.Element} Componente de alternância de tema.
+ */
+
 export const ThemeSwitch = () => {
   const themeCtx = useCampaigns();
 
+  /**
+   * Alterna o tema entre "dark" e "light".
+   */
   const handleThemeToggle = () => {
     if (themeCtx) {
       themeCtx.setTheme(themeCtx.theme === "dark" ? "light" : "dark");

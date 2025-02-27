@@ -3,7 +3,7 @@ import { useCampaigns } from "@/context/CampaignContext"; // Atualize o caminho 
 import TextInput from "./TextInputComponent";
 import TextareaComponent from "./TextAreaComponent";
 import SelectComponent from "./SelectComponent";
-import { Category, Status } from "@prisma/client";
+import { Campaign, Category, Status } from "@prisma/client";
 import DateTimeComponent from "./DateTimeComponent";
 import Button from "./ButtomComponent";
 
@@ -11,6 +11,26 @@ interface CampaignModalProps {
   campaignId: string;
   closeModal: () => void;
 }
+
+/**
+ * SingleCampaignModal component.
+ * Modal que exibe os detalhes de uma campanha, permitindo editar, excluir ou visualizar as informações.
+ *
+ * @component
+ * @example
+ * return (
+ *   <SingleCampaignModal
+ *     campaignId="1"
+ *     closeModal={() => console.log("Modal fechado")}
+ *   />
+ * )
+ *
+ * @param {Object} props - Props para o componente.
+ * @param {string} props.campaignId - ID da campanha a ser exibida no modal.
+ * @param {Function} props.closeModal - Função para fechar o modal.
+ *
+ * @returns {JSX.Element|null} - O modal renderizado ou null se a campanha não estiver carregada.
+ */
 
 const SingleCampaignModal: React.FC<CampaignModalProps> = ({
   campaignId,
@@ -22,7 +42,7 @@ const SingleCampaignModal: React.FC<CampaignModalProps> = ({
     removeCampaign,
     setExpiredCampaigns,
   } = useCampaigns();
-  const [campaign, setCampaign] = useState<any>(null); // Ajuste o tipo conforme necessário
+  const [campaign, setCampaign] = useState<Campaign | null>(null); // Ajuste o tipo conforme necessário
   const [isEditing, setIsEditing] = useState(false);
 
   const [name, setName] = useState<string>("");
@@ -34,10 +54,14 @@ const SingleCampaignModal: React.FC<CampaignModalProps> = ({
   const [dateEnd, setDateEnd] = useState<string>("");
   const [timeEnd, setTimeEnd] = useState<string>("");
 
+  /**
+   * Efeito que carrega os dados da campanha ao montar o componente.
+   *
+   * @returns {void}
+   */
   useEffect(() => {
     const fetchCampaign = async () => {
       const data = await getSingleCampaign(campaignId);
-      console.log(campaign);
       setCampaign(data);
       if (data) {
         const initialDate = new Date(data.dateInitial);
@@ -63,10 +87,20 @@ const SingleCampaignModal: React.FC<CampaignModalProps> = ({
     fetchCampaign();
   }, []);
 
+  /**
+   * Ativa o modo de edição para a campanha.
+   *
+   * @returns {void}
+   */
   const handleEdit = () => {
     setIsEditing(true);
   };
 
+  /**
+   * Salva as alterações feitas na campanha.
+   *
+   * @returns {Promise<void>} - Promise que representa a operação de salvar.
+   */
   const handleSave = async () => {
     if (campaign) {
       const initialDateTime = new Date(
@@ -88,6 +122,11 @@ const SingleCampaignModal: React.FC<CampaignModalProps> = ({
     }
   };
 
+  /**
+   * Exclui a campanha.
+   *
+   * @returns {Promise<void>} - Promise que representa a operação de exclusão.
+   */
   const handleDelete = async () => {
     if (campaign) {
       await removeCampaign(campaign.id);
@@ -95,26 +134,84 @@ const SingleCampaignModal: React.FC<CampaignModalProps> = ({
     }
   };
 
+  /**
+   * Atualiza o estado do nome da campanha.
+   *
+   * @param {string} value - O novo valor do nome.
+   *
+   * @returns {void}
+   */
   const handleNameChange = (value: string) => {
     setName(value);
   };
+
+  /**
+   * Atualiza o estado da descrição da campanha.
+   *
+   * @param {React.ChangeEvent<HTMLTextAreaElement>} e - O evento de mudança da descrição.
+   *
+   * @returns {void}
+   */
   const handleDescChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDescription(e.target.value);
   };
+
+  /**
+   * Atualiza o estado da categoria da campanha.
+   *
+   * @param {string} value - O novo valor da categoria.
+   *
+   * @returns {void}
+   */
   const handleCategoryChange = (value: string) => setCategory(value);
+
+  /**
+   * Atualiza o estado do status da campanha.
+   *
+   * @param {Status} value - O novo valor do status.
+   *
+   * @returns {void}
+   */
   const handleStatusChange = (value: Status) => setStatus(value);
+  /**
+   * Atualiza o estado da data inicial da campanha.
+   *
+   * @param {string} value - O novo valor da data inicial.
+   *
+   * @returns {void}
+   */
   const handleDateInitialChange = (value: string) => {
     setDateInitial(value);
   };
-
+  /**
+   * Atualiza o estado do horário inicial da campanha.
+   *
+   * @param {string} value - O novo valor do horário inicial.
+   *
+   * @returns {void}
+   */
   const handleTimeInitialChange = (value: string) => {
     setTimeInitial(value);
   };
 
+  /**
+   * Atualiza o estado da data final da campanha.
+   *
+   * @param {string} value - O novo valor da data final.
+   *
+   * @returns {void}
+   */
   const handleDateEndChange = (value: string) => {
     setDateEnd(value);
   };
 
+  /**
+   * Atualiza o estado do horário final da campanha.
+   *
+   * @param {string} value - O novo valor do horário final.
+   *
+   * @returns {void}
+   */
   const handleTimeEndChange = (value: string) => {
     setTimeEnd(value);
   };

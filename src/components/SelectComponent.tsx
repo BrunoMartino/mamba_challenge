@@ -1,5 +1,38 @@
 import { Category, Status } from "@prisma/client";
 
+/**
+ * Tipo para as opções do seletor.
+ *
+ * @typedef {Object} SelectOptions
+ * @property {string} [inputName] - Nome do campo do seletor (opcional).
+ * @property {string} value - Valor atual selecionado no seletor.
+ * @property {(value: Status | Category | string) => void} onChange - Função para tratar a mudança de valor.
+ * @property {string[]} options - Lista de opções a serem exibidas no seletor.
+ * @property {string} placeholder - Texto a ser exibido quando nenhuma opção for selecionada.
+ * @property {boolean} [disabled] - Se o seletor deve estar desabilitado (opcional).
+ */
+
+/**
+ * Componente de seletor (dropdown) reutilizável para selecionar uma opção de uma lista.
+ *
+ * Exibe um campo de seleção com opções passadas via `options`, e chama a função `onChange` quando o valor selecionado muda.
+ *
+ * @component
+ * @param {SelectOptions} props - Propriedades do componente.
+ * @param {string} props.inputName - Nome do campo do seletor.
+ * @param {string} props.value - Valor atual selecionado no seletor.
+ * @param {(value: Status | Category | string) => void} props.onChange - Função chamada quando o valor do seletor muda.
+ * @param {string[]} props.options - Lista de opções a serem exibidas no seletor.
+ * @param {string} props.placeholder - Texto a ser exibido no seletor quando nenhuma opção for selecionada.
+ * @param {boolean} [props.disabled] - Se o seletor deve ser desabilitado.
+ * @example
+ * const handleSelectChange = (value: string) => {
+ *   console.log(value);
+ * };
+ *
+ * return <SelectComponent value="Option 1" onChange={handleSelectChange} options={["Option 1", "Option 2"]} placeholder="Choose an option" />;
+ */
+
 type SelectOptions = {
   inputName?: string;
   value: string;

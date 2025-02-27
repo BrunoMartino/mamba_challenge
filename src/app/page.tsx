@@ -8,7 +8,7 @@ import { CampaignProvider } from "@/context/CampaignContext";
 const Home = () => {
   return (
     <CampaignProvider>
-      <div className="container mx-auto bg-white dark:bg-black">
+      <div className="container mx-auto bg-white dark:bg-[#0a0a0a] pb-20">
         <Header />
         <ActionsMenu />
         <ListCampaigns />

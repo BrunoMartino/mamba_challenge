@@ -4,15 +4,29 @@ import Searchbar from "./Searchbar";
 import { useCampaigns } from "@/context/CampaignContext";
 import { ThemeSwitch } from "./ThemeSwitch";
 
+/**
+ * Componente de cabeçalho da aplicação.
+ *
+ * @component
+ * @returns {JSX.Element} O elemento de navegação contendo logo, menu e funcionalidades adicionais.
+ */
 const Header = () => {
   const { setExpiredCampaigns } = useCampaigns();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  /**
+   * Manipula o clique no link do logo, chamando a função para definir campanhas expiradas.
+   *
+   * @param {React.MouseEvent} e - Evento de clique.
+   */
   const handleClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     await setExpiredCampaigns();
   };
 
+  /**
+   * Alterna o estado do menu móvel (aberto/fechado).
+   */
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
   };

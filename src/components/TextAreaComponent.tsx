@@ -7,6 +7,22 @@ type TextAreaProps = {
   disabled?: boolean;
 };
 
+/**
+ * @typedef {Object} TextAreaProps
+ * @property {string} [name] - Nome do campo de texto (opcional, padrão: "description").
+ * @property {string} value - Valor atual do campo de texto.
+ * @property {(value: React.ChangeEvent<HTMLTextAreaElement>) => void} onChange - Função chamada quando o valor do campo muda.
+ * @property {string} placeholder - Texto de placeholder exibido no campo.
+ * @property {boolean} [required] - Indica se o campo é obrigatório (opcional).
+ * @property {boolean} [disabled] - Indica se o campo está desabilitado (opcional).
+ */
+
+/**
+ * Componente de área de texto reutilizável.
+ *
+ * @param {TextAreaProps} props - Propriedades do componente.
+ * @returns {JSX.Element} - Componente de área de texto.
+ */
 const TextareaComponent = ({
   value,
   onChange,

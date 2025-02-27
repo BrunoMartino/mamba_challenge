@@ -7,13 +7,26 @@ import SelectComponent from "./SelectComponent";
 import DateTimeComponent from "./DateTimeComponent";
 import TextareaComponent from "./TextAreaComponent";
 
+/**
+ * Componente de criação de campanhas.
+ *
+ * Permite ao usuário criar uma nova campanha definindo nome, descrição,
+ * datas de início e término, status e categoria.
+ */
+
 const CreateCampaign = () => {
+  /**
+   * Obtém a data e hora atual formatadas para inicialização dos inputs.
+   */
   const today = new Date();
   const todayIso = today.toISOString().split("T")[0];
   const currentTime = today.toTimeString().split(" ")[0].slice(0, 5);
 
   const { addCampaign, setExpiredCampaigns } = useCampaigns();
 
+  /**
+   * Estados para armazenar os valores dos inputs do formulário.
+   */
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [dateInitial, setDateInitial] = useState(todayIso);
@@ -43,6 +56,10 @@ const CreateCampaign = () => {
   const handleCategoryChange = (value: string) => setCategory(value);
   const handleStatusChange = (value: Status) => setStatus(value);
 
+  /**
+   * Lida com o envio do formulário, formatando os dados e chamando a função para criar uma campanha.
+   * @param {React.FormEvent<HTMLFormElement>} e - Evento de envio do formulário.
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -58,6 +75,9 @@ const CreateCampaign = () => {
     await setExpiredCampaigns();
   };
 
+  /**
+   * Limpa os campos do formulário para os valores iniciais.
+   */
   const clearFields = () => {
     setName("");
     setDescription("");

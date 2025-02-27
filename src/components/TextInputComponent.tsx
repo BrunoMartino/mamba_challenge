@@ -7,7 +7,25 @@ type TextInputProps = {
   required?: boolean;
   disabled?: boolean;
 };
+/**
+ * Propriedades para o componente TextInput.
+ *
+ * @typedef {Object} TextInputProps
+ * @property {string} [inputName] - Nome do campo de entrada.
+ * @property {string} value - Valor atual do campo de entrada.
+ * @property {(value: string) => void} onChange - Função chamada ao alterar o valor do campo.
+ * @property {string} placeholder - Texto de placeholder exibido no campo.
+ * @property {(e: React.KeyboardEvent<HTMLInputElement>) => void} [onKeyDown] - Função opcional chamada ao pressionar uma tecla.
+ * @property {boolean} [required] - Indica se o campo é obrigatório.
+ * @property {boolean} [disabled] - Indica se o campo está desabilitado.
+ */
 
+/**
+ * Componente de entrada de texto reutilizável.
+ *
+ * @param {TextInputProps} props - Propriedades do componente.
+ * @returns {JSX.Element} Componente de entrada de texto.
+ */
 const TextInput = ({
   inputName,
   value,

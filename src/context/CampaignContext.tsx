@@ -11,6 +11,26 @@ import {
   useState,
 } from "react";
 
+/**
+ * @typedef {Object} CampaignContextProps
+ * @property {Campaign[]} campaigns - Lista de campanhas
+ * @property {string} theme - Tema atual
+ * @property {(newTheme: string) => void} setTheme - Função para definir o tema
+ * @property {() => Promise<void>} fetchCampaigns - Busca todas as campanhas
+ * @property {(campaign: Campaign) => Promise<void>} addCampaign - Adiciona uma campanha
+ * @property {(query: string) => Promise<void>} searchCampaigns - Pesquisa campanhas por termo
+ * @property {(id: string, data: Partial<Campaign>) => Promise<void>} editCampaign - Edita uma campanha existente
+ * @property {(id: string) => Promise<Campaign | undefined>} getSingleCampaign - Obtém uma campanha específica
+ * @property {(id: string) => Promise<void>} removeCampaign - Remove uma campanha pelo ID
+ * @property {() => Promise<void>} setExpiredCampaigns - Atualiza status de campanhas expiradas
+ * @property {(status?: Status, category?: Category) => Promise<void>} filterCampaigns - Filtra campanhas por status e categoria
+ */
+
+/**
+ * @typedef {Object} Props
+ * @property {ReactNode} children - Componentes filhos a serem renderizados
+ */
+
 interface CampaignContextProps {
   campaigns: Campaign[];
   theme: string;
@@ -34,10 +54,19 @@ type Props = {
 
 const STORAGE_KEY = "themeContextKey";
 
+/**
+ * Contexto para gerenciamento das campanhas.
+ */
 export const CampaignContext = createContext<CampaignContextProps | undefined>(
   undefined
 );
 
+/**
+ * Provedor do contexto de campanhas.
+ *
+ * @param {Props} props - Propriedades do componente provedor.
+ * @returns {JSX.Element} Componente do provedor de campanhas.
+ */
 export const CampaignProvider = ({ children }: Props) => {
   const [state, dispatch] = useReducer(campaignReducer, {
     campaigns: [],
@@ -62,6 +91,11 @@ export const CampaignProvider = ({ children }: Props) => {
     localStorage.setItem(STORAGE_KEY, theme);
   }, [theme]);
 
+  /**
+   * Atualiza o status das campanhas expiradas e refaz a busca das campanhas.
+   *
+   * @returns {Promise<void>}
+   */
   const setExpiredCampaigns = async () => {
     try {
       const res = await fetch("/api/campaigns/expired-campaigns", {
@@ -78,6 +112,11 @@ export const CampaignProvider = ({ children }: Props) => {
     }
   };
 
+  /**
+   * Busca todas as campanhas disponíveis.
+   *
+   * @returns {Promise<void>}
+   */
   const fetchCampaigns = async () => {
     try {
       const res = await fetch("/api/campaigns");
@@ -88,6 +127,12 @@ export const CampaignProvider = ({ children }: Props) => {
     }
   };
 
+  /**
+   * Adiciona uma nova campanha.
+   *
+   * @param {Campaign} campaign - Objeto com os dados da campanha a ser adicionada.
+   * @returns {Promise<void>}
+   */
   const addCampaign = async (campaign: Campaign) => {
     try {
       const res = await fetch("/api/campaigns", {
@@ -102,6 +147,13 @@ export const CampaignProvider = ({ children }: Props) => {
     }
   };
 
+  /**
+   * Edita uma campanha existente.
+   *
+   * @param {string} id - ID da campanha a ser editada.
+   * @param {Partial<Campaign>} data - Dados parciais para atualizar a campanha.
+   * @returns {Promise<void>}
+   */
   const editCampaign = async (id: string, data: Partial<Campaign>) => {
     try {
       const res = await fetch(`/api/campaigns/${id}`, {
@@ -116,6 +168,12 @@ export const CampaignProvider = ({ children }: Props) => {
     }
   };
 
+  /**
+   * Remove uma campanha pelo seu ID.
+   *
+   * @param {string} id - ID da campanha a ser removida.
+   * @returns {Promise<void>}
+   */
   const removeCampaign = async (id: string) => {
     try {
       await fetch(`/api/campaigns/${id}`, { method: "DELETE" });
@@ -125,6 +183,12 @@ export const CampaignProvider = ({ children }: Props) => {
     }
   };
 
+  /**
+   * Pesquisa campanhas com base em um termo de busca.
+   *
+   * @param {string} query - Termo para pesquisa de campanhas.
+   * @returns {Promise<void>}
+   */
   const searchCampaigns = async (query: string) => {
     try {
       const res = await fetch(`/api/campaigns/search?q=${query}`);
@@ -137,6 +201,12 @@ export const CampaignProvider = ({ children }: Props) => {
     }
   };
 
+  /**
+   * Obtém os detalhes de uma única campanha.
+   *
+   * @param {string} id - ID da campanha a ser buscada.
+   * @returns {Promise<Campaign | undefined>} A campanha encontrada ou undefined se não encontrada.
+   */
   const getSingleCampaign = async (id: string) => {
     try {
       const res = await fetch(`/api/campaigns/${id}`);
@@ -150,6 +220,13 @@ export const CampaignProvider = ({ children }: Props) => {
     }
   };
 
+  /**
+   * Filtra campanhas com base em status e categoria.
+   *
+   * @param {Status} [status] - Status para filtrar as campanhas.
+   * @param {Category} [category] - Categoria para filtrar as campanhas.
+   * @returns {Promise<void>}
+   */
   const filterCampaigns = async (status?: Status, category?: Category) => {
     const queryParams = new URLSearchParams();
     if (status) queryParams.append("status", status);
@@ -182,4 +259,9 @@ export const CampaignProvider = ({ children }: Props) => {
   );
 };
 
+/**
+ * Hook para acessar o contexto de campanhas.
+ *
+ * @returns {CampaignContextProps | undefined} O contexto de campanhas.
+ */
 export const useCampaigns = () => useContext(CampaignContext);

@@ -5,12 +5,20 @@ import SelectComponent from "./SelectComponent";
 import Button from "./ButtomComponent";
 import CreateCampaign from "./CreateCampaing";
 
+/**
+ * Componente ActionsMenu - Exibe botões e selects para filtragem e criação de campanhas.
+ * @returns {JSX.Element} Elemento JSX representando o menu de ações.
+ */
 const ActionsMenu = () => {
   const { filterCampaigns } = useCampaigns();
   const [statusFilter, setStatusFilter] = useState<Status | "">("");
   const [categoryFilter, setCategoryFilter] = useState<Category | "">("");
   const [showCreateCampaign, setShowCreateCampaign] = useState<boolean>(false);
 
+  /**
+   * Aplica os filtros de status e categoria nas campanhas.
+   * Chama a função filterCampaigns do contexto.
+   */
   const applyFIlters = async () => {
     await filterCampaigns(
       statusFilter !== "" ? statusFilter : undefined,
@@ -18,6 +26,9 @@ const ActionsMenu = () => {
     );
   };
 
+  /**
+   * Alterna a exibição do modal de criação de campanhas.
+   */
   const toggleCreateCampaing = () => {
     setShowCreateCampaign((camp) => !camp);
   };
