@@ -93,6 +93,15 @@ npm run dev
 
 A aplicação estará rodando em http://localhost:3000.
 
+📄 Testes Automatizados
+
+O Backend suporta dois tipos de testes unitários, um para as validations em Zod, e outro para cada uma das funções em Services que montam as rotas de api
+para rodar os testes de backend use
+
+        npm run test
+
+Os testes são rodados automaticamente na inicialização quando a instação é feita com o docker compose
+
 📄 Endpoints da API
 
 Método

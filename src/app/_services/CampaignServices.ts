@@ -4,7 +4,7 @@ import {
   createCampaignSchema,
   updateCampaignSchema,
 } from "../_libs/validation";
-import { nanoid } from "nanoid";
+import { nanoid } from "nanoid/non-secure";
 
 /**
  * Obtém todas as campanhas com base no status e categoria fornecidos.
